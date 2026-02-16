@@ -22,6 +22,7 @@
                     <div class="form-header text-center mb-4">
                         <img src="image.jpg" alt="Wedding Illustration" class="header-illustration">
                         <h4 class="couple-names" id="t-names">Danielle & Moshe</h4>
+                        <h5 class="wedding-date" id="t-weddingDate">August 4th, 2026</h5>
                         <h1 id="t-title">Wedding RSVP</h1>
                         <p class="text-muted" id="t-date">Kindly respond by [Date]</p>
                     </div>
@@ -42,7 +43,7 @@
                             <label for="totalCount" class="form-label" id="t-totalCountLabel">Total Number Attending (Including You)</label>
                             <select id="totalCount" class="form-select custom-input" required>
                                 <option value="0" id="t-opt0">0 (I am not coming)</option>
-                                <option value="1" id="t-opt1">1 (Just me)</option>
+                                <option value="1" id="t-opt1" selected>1 (Just me)</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
@@ -70,6 +71,7 @@
     const translations = {
         en: {
             names: "Danielle & Moshe",
+            weddingDate: "August 4th, 2026",
             title: "Wedding RSVP",
             date: "Kindly respond by [Date]",
             mainNameLabel: "Your Name (Main Guest)",
@@ -85,10 +87,12 @@
             sending: "Sending...",
             success: "Thank you! Your RSVP has been received.",
             error: "Something went wrong. Please try again.",
-            langBtn: "עברית"
+            langBtn: "עברית",
+            requiredWarning: "Please fill out this field."
         },
         he: {
             names: "דניאל ומשה",
+            weddingDate: "4 אוגוסט 2026",
             title: "אישור הגעה לחתונה",
             date: "נא להגיב עד [תאריך]",
             mainNameLabel: "שם המלא (אורח ראשי)",
@@ -104,7 +108,8 @@
             sending: "שולח...",
             success: "תודה! אישור ההגעה התקבל.",
             error: "יש תקלה. אנא נסו שוב.",
-            langBtn: "English"
+            langBtn: "English",
+            requiredWarning: "נא מלאו את השדה."
         }
     };
 
@@ -126,6 +131,7 @@
         }
 
         document.getElementById('t-names').textContent = t.names;
+        document.getElementById('t-weddingDate').textContent = t.weddingDate;
         document.getElementById('t-phoneLabel').textContent = t.phoneLabel;
         document.getElementById('phone').placeholder = t.phonePlaceholder;
         document.getElementById('t-title').textContent = t.title;
@@ -144,6 +150,21 @@
             totalCountSelect.dispatchEvent(new Event('change'));
         }
     }
+
+    function attachValidationMsg(inputElement) {
+        inputElement.addEventListener('invalid', function(e) {
+            e.target.setCustomValidity("");
+            if (!e.target.validity.valid) {
+                e.target.setCustomValidity(translations[currentLang].requiredWarning);
+            }
+        });
+
+        inputElement.addEventListener('input', function(e) {
+            e.target.setCustomValidity("");
+        });
+    }
+
+    document.querySelectorAll('input[required], select[required]').forEach(attachValidationMsg);
 
     const userLang = navigator.language || navigator.userLanguage; 
     if (userLang.startsWith('he')) {
@@ -181,6 +202,7 @@
                 input.className = 'form-control custom-input extra-guest-input mb-2';
                 input.placeholder = t.guestPlaceholder.replace('{n}', i + 1);
                 input.required = true;
+                attachValidationMsg(input);
                 dynamicInputsDiv.appendChild(input);
             }
         }
