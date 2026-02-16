@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding RSVP</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Heebo:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="main-wrapper d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                
+                <div class="rsvp-card">
+                    
+                    <div class="form-header text-center mb-4">
+                        <img src="image.jpg" alt="Wedding Illustration" class="header-illustration">
+                        <h4 class="couple-names" id="t-names">Danielle & Moshe</h4>
+                        <h1 id="t-title">Wedding RSVP</h1>
+                        <p class="text-muted" id="t-date">Kindly respond by [Date]</p>
+                    </div>
+
+                    <form id="rsvpForm">
+                        
+                        <div class="mb-4">
+                            <label for="mainName" class="form-label" id="t-mainNameLabel">Your Name (Main Guest)</label>
+                            <input type="text" id="mainName" name="mainName" class="form-control custom-input" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="phone" class="form-label" id="t-phoneLabel">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-control custom-input" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="totalCount" class="form-label" id="t-totalCountLabel">Total Number Attending (Including You)</label>
+                            <select id="totalCount" class="form-select custom-input" required>
+                                <option value="0" id="t-opt0">0 (I am not coming)</option>
+                                <option value="1" id="t-opt1">1 (Just me)</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+
+                        <div id="dynamicInputs" class="mb-4"></div>
+
+                        <div class="text-center">
+                            <button type="submit" id="submitBtn" class="btn btn-elegant">Submit RSVP</button>
+                        </div>
+                    </form>
+                    <div id="message"></div>
+                    <button id="langToggle" class="btn btn-sm lang-btn">עברית</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const translations = {
+        en: {
+            names: "Danielle & Moshe",
+            title: "Wedding RSVP",
+            date: "Kindly respond by [Date]",
+            mainNameLabel: "Your Name (Main Guest)",
+            mainNamePlaceholder: "e.g. John Doe",
+            phoneLabel: "Phone Number",
+            phonePlaceholder: "e.g. 917-123-4567",
+            totalCountLabel: "Total Number Attending (Including You)",
+            opt0: "0 (I am not coming)",
+            opt1: "1 (Just me)",
+            guestHeader: "Please enter the names of your guests:",
+            guestPlaceholder: "Guest {n} Name",
+            submitBtn: "Submit RSVP",
+            sending: "Sending...",
+            success: "Thank you! Your RSVP has been received.",
+            error: "Something went wrong. Please try again.",
+            langBtn: "עברית"
+        },
+        he: {
+            names: "דניאל ומשה",
+            title: "אישור הגעה לחתונה",
+            date: "נא להגיב עד [תאריך]",
+            mainNameLabel: "שם המלא (אורח ראשי)",
+            mainNamePlaceholder: "לדוגמה: יצחק שלום",
+            phoneLabel: "מספר טלפון",
+            phonePlaceholder: "לדוגמה: 972-50-1234567",
+            totalCountLabel: "מספר משתתפים (כולל אותך)",
+            opt0: "0 (לצערי לא אגיע)",
+            opt1: "1 (רק אני)",
+            guestHeader: "נא לכתוב את שמות האורחים הנוספים:",
+            guestPlaceholder: "שם אורח נוסף {n}",
+            submitBtn: "שלח אישור הגעה",
+            sending: "שולח...",
+            success: "תודה! אישור ההגעה התקבל.",
+            error: "יש תקלה. אנא נסו שוב.",
+            langBtn: "English"
+        }
+    };
+
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        const t = translations[lang];
+        const html = document.documentElement;
+
+        if (lang === 'he') {
+            html.setAttribute('dir', 'rtl');
+            html.setAttribute('lang', 'he');
+            document.body.classList.add('hebrew-mode');
+        } else {
+            html.setAttribute('dir', 'ltr');
+            html.setAttribute('lang', 'en');
+            document.body.classList.remove('hebrew-mode');
+        }
+
+        document.getElementById('t-names').textContent = t.names;
+        document.getElementById('t-phoneLabel').textContent = t.phoneLabel;
+        document.getElementById('phone').placeholder = t.phonePlaceholder;
+        document.getElementById('t-title').textContent = t.title;
+        document.getElementById('t-date').textContent = t.date;
+        document.getElementById('t-mainNameLabel').textContent = t.mainNameLabel;
+        document.getElementById('t-totalCountLabel').textContent = t.totalCountLabel;
+        document.getElementById('t-opt0').textContent = t.opt0;
+        document.getElementById('t-opt1').textContent = t.opt1;
+        document.getElementById('submitBtn').textContent = t.submitBtn;
+        document.getElementById('langToggle').textContent = t.langBtn;
+
+        document.getElementById('mainName').placeholder = t.mainNamePlaceholder;
+
+        const totalCountSelect = document.getElementById('totalCount');
+        if (totalCountSelect.value > 1) {
+            totalCountSelect.dispatchEvent(new Event('change'));
+        }
+    }
+
+    const userLang = navigator.language || navigator.userLanguage; 
+    if (userLang.startsWith('he')) {
+        setLanguage('he');
+    } else {
+        setLanguage('en');
+    }
+
+    document.getElementById('langToggle').addEventListener('click', function() {
+        setLanguage(currentLang === 'en' ? 'he' : 'en');
+    });
+
+    const totalCountSelect = document.getElementById('totalCount');
+    const dynamicInputsDiv = document.getElementById('dynamicInputs');
+    const form = document.getElementById('rsvpForm');
+    const messageDiv = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
+
+    totalCountSelect.addEventListener('change', function() {
+        const total = parseInt(this.value);
+        dynamicInputsDiv.innerHTML = '';
+
+        if (total > 1) {
+            const extraNeeded = total - 1;
+            const t = translations[currentLang];
+            
+            const header = document.createElement('p');
+            header.textContent = t.guestHeader;
+            header.className = "guest-header-text";
+            dynamicInputsDiv.appendChild(header);
+
+            for (let i = 0; i < extraNeeded; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'form-control custom-input extra-guest-input mb-2';
+                input.placeholder = t.guestPlaceholder.replace('{n}', i + 1);
+                input.required = true;
+                dynamicInputsDiv.appendChild(input);
+            }
+        }
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        submitBtn.disabled = true;
+        submitBtn.textContent = translations[currentLang].sending;
+        messageDiv.textContent = "";
+
+        const extraInputs = document.querySelectorAll('.extra-guest-input');
+        const extraNames = Array.from(extraInputs).map(input => input.value);
+
+        const formData = {
+            mainName: document.getElementById('mainName').value,
+            phone: document.getElementById('phone').value,
+            totalCount: document.getElementById('totalCount').value,
+            extraNames: extraNames
+        };
+
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxuNOKYVuNKLY7jqqB4U8uNwWV72dk98syKFdkMCt9HNajZSHFm0ViG9fH0atdf-bq/exec"; // Keep your URL here
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(() => {
+            messageDiv.textContent = translations[currentLang].success;
+            messageDiv.className = "success";
+            form.reset();
+            dynamicInputsDiv.innerHTML = '';
+            submitBtn.textContent = translations[currentLang].submitBtn;
+            submitBtn.disabled = false;
+        })
+        .catch(error => {
+            console.error('Error!', error.message);
+            messageDiv.textContent = translations[currentLang].error;
+            messageDiv.className = "error";
+            submitBtn.disabled = false;
+            submitBtn.textContent = translations[currentLang].submitBtn;
+        });
+    });
+</script>
+
+</body>
+</html>
