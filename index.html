@@ -234,12 +234,11 @@
             headers: { 'Content-Type': 'application/json' }
         })
         .then(() => {
+            form.style.display = 'none';
             messageDiv.textContent = translations[currentLang].success;
             messageDiv.className = "success";
-            form.reset();
-            dynamicInputsDiv.innerHTML = '';
-            submitBtn.textContent = translations[currentLang].submitBtn;
-            submitBtn.disabled = false;
+            messageDiv.style.padding = "40px 0";
+            messageDiv.style.fontSize = "1.2rem";
         })
         .catch(error => {
             console.error('Error!', error.message);
