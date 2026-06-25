@@ -23,6 +23,7 @@
                         <img src="image.jpg" alt="Wedding Illustration" class="header-illustration">
                         <h4 class="couple-names" id="t-names">Danielle & Moshe</h4>
                         <h5 class="wedding-date" id="t-weddingDate">July 28th, 2026</h5>
+                        <h6 class="wedding-time" id="t-weddingTime" style="font-size: 0.85em; margin-top: -5px; color: inherit;">7:30 PM</h6>
                         <h1 id="t-title">Danielle & Moshe’s Henna Celebration</h1>
                         <p class="text-muted" id="t-date">Kindly respond by [Date]</p>
                     </div>
@@ -77,6 +78,7 @@
         en: {
             names: "Danielle & Moshe",
             weddingDate: "July 28th, 2026",
+            weddingTime: "7:30 PM",
             title: "Danielle & Moshe’s Henna Celebration",
             date: "Kindly respond by [Date]",
             mainNameLabel: "Your Name",
@@ -98,6 +100,7 @@
         he: {
             names: "דניאל ומשה",
             weddingDate: "28.7.26",
+            weddingTime: "19:30",
             title: "ערב החינה של דניאל ומשה",
             date: "נא להגיב עד [תאריך]",
             mainNameLabel: "שם המלא",
@@ -137,6 +140,7 @@
 
         document.getElementById('t-names').textContent = t.names;
         document.getElementById('t-weddingDate').textContent = t.weddingDate;
+        document.getElementById('t-weddingTime').textContent = t.weddingTime;
         document.getElementById('t-phoneLabel').textContent = t.phoneLabel;
         document.getElementById('phone').placeholder = t.phonePlaceholder;
         document.getElementById('t-title').textContent = t.title;
