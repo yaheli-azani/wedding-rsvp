@@ -189,25 +189,26 @@ select.custom-input {
     display: block;
 }
 
-.wedding-date {
-    font-family: var(--font-serif);
-    color: var(--color-text-muted);
-    font-size: 1.1rem;
-    font-weight: 400;
-    margin-top: 0.2rem;
-    margin-bottom: 1.5rem;
-}
-
+.wedding-date,
 .wedding-time {
     font-family: var(--font-serif);
     color: var(--color-text-muted);
-    font-size: 1rem;
     font-weight: 400;
     margin-top: 0.2rem;
+}
+
+.wedding-date {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+}
+
+.wedding-time {
+    font-size: 1rem;
     margin-bottom: 1.5rem;
 }
 
-body.hebrew-mode .wedding-date {
+body.hebrew-mode .wedding-date,
+body.hebrew-mode .wedding-time {
     font-family: var(--font-hebrew);
 }
 
